@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String        @id @default(uuid())
+  name          String
+  email         String        @unique
+  password      String
+  transactions  Transaction[]
+  accounts      Account[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Account {
+  id        String   @id @default(uuid())
+  name      String   // Ex: "Nubank", "Carteira", "Inter"
+  type      String   // Ex: "Checking", "Savings"
+  balance   Decimal  @default(0)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+model Category {
+  id           String        @id @default(uuid())
+  name         String        @unique // Ex: "Alimentação", "Lazer", "Transporte"
+  icon         String?       // Nome do ícone (ex: "shopping-cart")
+  color        String?       // Hexadecimal da cor
+  transactions Transaction[]
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  description String
+  amount      Decimal
+  date        DateTime @default(now())
+  type        String   // "INCOME" (Entrada) ou "EXPENSE" (Saída)
+  
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
