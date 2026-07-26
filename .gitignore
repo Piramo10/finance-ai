@@ -52,3 +52,11 @@ Thumbs.db
 .turbo-clone-temp/
 
 desktop.ini
+
+# AI editors
+.agents/
+.claude/
+.windsurf/# AI editors
+.agents/
+.claude/
+.windsurf/
