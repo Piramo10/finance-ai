@@ -9,6 +9,7 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
+    "@fastify/cors": "^8.5.0",
     "@prisma/client": "^6.19.3",
     "bcryptjs": "^3.0.3",
     "fastify": "^4.29.1",
