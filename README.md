@@ -1,159 +1,398 @@
-# Turborepo starter
+# 💰 Finance AI
 
-This Turborepo starter is maintained by the Turborepo core team.
+A full-stack financial management platform designed to help users organize their finances, track transactions, manage accounts and categories, and gain insights into their financial behavior through data and AI.
 
-## Using this example
+The project is being developed as a modern monorepo, focusing on scalability, type safety, separation of responsibilities, and maintainable architecture.
 
-Run the following command:
+## 🚀 Features
 
-```sh
-npx create-turbo@latest
+### 🔐 Authentication
+- User registration
+- Login with email and password
+- Password hashing with bcrypt
+- JWT authentication
+- Protected API routes
+- Persistent authentication session
+- Logout
+
+### 💳 Financial Management
+- Account management
+- Category management
+- Transaction management
+- Income and expense tracking
+- Current balance calculation
+- Financial summaries
+- Transaction filtering
+
+### 📊 Dashboard
+- Current balance
+- Total income
+- Total expenses
+- Spending by category
+- Financial overview
+- Interactive charts
+
+### 🤖 AI Features
+
+Planned AI capabilities include:
+
+- Automatic transaction categorization
+- Financial assistant/chat
+- Spending analysis
+- Expense predictions
+- Balance forecasting
+- Personalized financial insights
+
+### 📄 Statement Import
+
+Planned support for importing financial statements from:
+
+- CSV
+- OFX
+- PDF
+
+---
+
+## 🏗️ Architecture
+
+The project uses a monorepo architecture:
+
+```text
+finance-ai/
+│
+├── apps/
+│   ├── api/              # Fastify REST API
+│   └── web/              # Next.js frontend
+│
+├── packages/
+│   ├── database/         # Prisma schema and database layer
+│   ├── types/            # Shared TypeScript types
+│   ├── auth/             # Shared authentication logic
+│   ├── ui/               # Shared UI components
+│   └── config/           # Shared configurations
+│
+├── package.json
+└── turbo.json
 ```
 
-## What's inside?
+### Backend
 
-This Turborepo includes the following packages/apps:
+The API is built with **Fastify**, using Prisma as the ORM and PostgreSQL as the database.
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```text
+Client
+  │
+  ▼
+Next.js
+  │
+  │ HTTP / JWT
+  ▼
+Fastify API
+  │
+  ▼
+Prisma
+  │
+  ▼
+PostgreSQL
 ```
 
-Without global `turbo`, use your package manager:
+### Frontend
 
-```sh
-cd my-turborepo
-npx turbo build
-npm dlx turbo build
-npm exec turbo build
+The web application is built with:
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS v4
+
+The project also contains a local reusable UI component library to maintain consistency across the application.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS v4
+
+### Backend
+
+- Node.js
+- Fastify
+- TypeScript
+- JWT
+- bcrypt
+
+### Database
+
+- PostgreSQL
+- Prisma ORM
+- Supabase
+
+### Monorepo
+
+- Turborepo
+- npm workspaces
+
+### UI
+
+- Tailwind CSS
+- Reusable component architecture
+- Recharts *(planned)*
+
+---
+
+## 🗄️ Database
+
+The application uses PostgreSQL with Prisma ORM.
+
+The current data model is centered around:
+
+```text
+User
+ │
+ ├── Accounts
+ │
+ ├── Categories
+ │
+ └── Transactions
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+The database is designed to support financial data isolation between users while maintaining relationships between accounts, categories and transactions.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+---
 
-```sh
-turbo build --filter=docs
+## 🔒 Security
+
+Security is an important part of the application architecture.
+
+Current implementations include:
+
+- Password hashing with bcrypt
+- JWT-based authentication
+- Protected API endpoints
+- Environment variables for sensitive configuration
+- User-based data access
+- Input validation
+
+Additional security improvements will be implemented before production deployment.
+
+---
+
+## 📡 API
+
+The backend exposes authenticated endpoints for the application's financial resources.
+
+Current functionality includes:
+
+```text
+POST   /auth/register
+POST   /auth/login
+
+GET    /dashboard
+
+GET    /transactions
+POST   /transactions
+DELETE /transactions/:id
 ```
 
-Without global `turbo`:
+Additional CRUD endpoints for accounts, categories and transactions are planned.
 
-```sh
-npx turbo build --filter=docs
-npm exec turbo build --filter=docs
-npm exec turbo build --filter=docs
+---
+
+## 🖥️ Frontend Routes
+
+Current public routes:
+
+```text
+/login
+/cadastro
 ```
 
-### Develop
+Planned authenticated routes:
 
-To develop all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
+```text
+/dashboard
+/contas
+/categorias
+/transacoes
+/metas
 ```
 
-Without global `turbo`, use your package manager:
+---
 
-```sh
-cd my-turborepo
-npx turbo dev
-npm exec turbo dev
-npm exec turbo dev
+## ⚙️ Getting Started
+
+### Requirements
+
+Make sure you have installed:
+
+- Node.js
+- npm
+- PostgreSQL or a Supabase project
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Piramo10/finance-ai.git
+
+cd finance-ai
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+### 2. Install dependencies
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
+```bash
+npm install
 ```
 
-Without global `turbo`:
+### 3. Configure environment variables
 
-```sh
-npx turbo dev --filter=web
-npm exec turbo dev --filter=web
-npm exec turbo dev --filter=web
+Create the required `.env` files based on the project's environment examples.
+
+Example:
+
+```env
+DATABASE_URL="your_database_url"
+JWT_SECRET="your_jwt_secret"
 ```
 
-### Remote Caching
+Never commit real credentials or secrets to the repository.
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+### 4. Run Prisma
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+Generate the Prisma client:
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
+```bash
+npx prisma generate
 ```
 
-Without global `turbo`, use your package manager:
+Run database migrations:
 
-```sh
-cd my-turborepo
-npx turbo login
-npm exec turbo login
-npm exec turbo login
+```bash
+npx prisma migrate dev
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### 5. Start the development environment
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
+```bash
+npm run dev
 ```
 
-Without global `turbo`:
+The applications will be available locally through their configured development ports.
 
-```sh
-npx turbo link
-npm exec turbo link
-npm exec turbo link
+---
+
+## 🧪 Development
+
+The project is structured as a monorepo, allowing frontend, backend and shared packages to evolve independently while maintaining shared types and configurations.
+
+Typical development workflow:
+
+```text
+Feature
+  ↓
+Shared Types
+  ↓
+API
+  ↓
+Database
+  ↓
+Frontend
+  ↓
+Integration Testing
 ```
 
-## Useful Links
+---
 
-Learn more about the power of Turborepo:
+## 📈 Roadmap
 
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+### Authentication
+- [x] User registration
+- [x] Login
+- [x] Password hashing
+- [x] JWT authentication
+- [x] Protected API routes
+- [ ] Logout
+- [ ] Frontend route protection
+
+### Dashboard
+- [x] Initial financial calculations
+- [ ] Complete dashboard UI
+- [ ] Balance summary
+- [ ] Income/expense charts
+- [ ] Category analysis
+- [ ] Date filters
+
+### Financial Management
+- [ ] Account CRUD
+- [ ] Category CRUD
+- [ ] Complete transaction CRUD
+- [ ] Transaction editing
+- [ ] Advanced filtering
+
+### Import
+- [ ] CSV import
+- [ ] OFX import
+- [ ] PDF statement extraction
+- [ ] Automatic transaction processing
+
+### AI
+- [ ] Automatic categorization
+- [ ] Financial chatbot
+- [ ] Spending analysis
+- [ ] Expense predictions
+- [ ] Balance forecasting
+- [ ] Personalized recommendations
+
+### Financial Goals
+- [ ] Create financial goals
+- [ ] Track progress
+- [ ] Goal analytics
+- [ ] AI-powered recommendations
+
+### Production
+- [ ] Production database
+- [ ] Environment configuration
+- [ ] API security hardening
+- [ ] Logging
+- [ ] Monitoring
+- [ ] CI/CD
+- [ ] Deployment
+
+---
+
+## 🎯 Project Goals
+
+Finance AI is being developed not only as a financial management application, but also as a practical software engineering project focused on:
+
+- Scalable architecture
+- REST API design
+- Database modeling
+- Authentication and authorization
+- Type-safe development
+- Monorepo architecture
+- Reusable UI components
+- Data visualization
+- AI integration
+- Production-ready practices
+
+The long-term goal is to combine traditional financial management with AI-powered analysis to provide users with actionable insights into their financial behavior.
+
+---
+
+## 👨‍💻 Author
+
+**Marcelo Piramo**
+
+Software Engineering student focused on Full-stack Development, Backend Engineering and modern TypeScript applications.
+
+GitHub: **[@Piramo10](https://github.com/Piramo10)**
+
+---
+
+## 📄 License
+
+This project is currently intended for educational and portfolio purposes.
