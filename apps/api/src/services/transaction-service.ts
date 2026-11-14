@@ -10,6 +10,7 @@ export class TransactionService {
 
   async createTransaction(userId: string, data: any) {
     const formattedDate = data.date ? new Date(data.date) : new Date();
+
     if (isNaN(formattedDate.getTime())) {
       throw new AppError("Formato de data inválido", 400);
     }
@@ -26,18 +27,24 @@ export class TransactionService {
       transactionId,
       userId,
     );
-    if (!deleted) throw new AppError("Transação não encontrada", 404);
+
+    if (!deleted) {
+      throw new AppError("Transação não encontrada", 404);
+    }
+
     return { message: "Transação deletada com sucesso" };
   }
 
-  // ESTA É A FUNÇÃO QUE ESTAVA FALTANDO:
   async getDashboardData(userId: string) {
     const totals = await this.transactionRepository.getTotalsByUserId(userId);
+
     const categoryTotals =
       await this.transactionRepository.getTotalsByCategory(userId);
 
     const income = totals.find((t) => t.type === "INCOME")?._sum.amount || 0;
+
     const expense = totals.find((t) => t.type === "EXPENSE")?._sum.amount || 0;
+
     const balance = Number(income) - Number(expense);
 
     return {
@@ -49,5 +56,9 @@ export class TransactionService {
         total: Number(cat._sum.amount),
       })),
     };
+  }
+
+  async listCategories(type?: string) {
+    return await this.transactionRepository.findAllCategories(type);
   }
 }

@@ -3,12 +3,13 @@ import cors from "@fastify/cors";
 import { AppError } from "./utils/app-error";
 import { authRoutes } from "./routes/auth-routes";
 import { transactionRoutes } from "./routes/transaction-routes";
+import { financialGoalRoutes } from "./routes/financial-goal-routes";
 
 const app = Fastify();
 
 app.register(cors, {
   origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 });
 
@@ -30,6 +31,7 @@ app.setErrorHandler((error, request, reply) => {
 
 app.register(authRoutes);
 app.register(transactionRoutes);
+app.register(financialGoalRoutes);
 
 app.get("/health", async () => {
   return { status: "ok", message: "API Finance AI está online!" };

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import {
   ArrowRight,
@@ -24,6 +24,14 @@ import { api } from "@/services/api";
 
 export default function RegisterPage() {
   const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("finance-token");
+
+    if (token) {
+      router.replace("/dashboard");
+    }
+  }, [router]);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

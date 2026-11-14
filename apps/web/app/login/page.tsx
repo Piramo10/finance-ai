@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import {
   ArrowRight,
@@ -33,6 +33,14 @@ type LoginResponse = {
 export default function LoginPage() {
   const router = useRouter();
 
+  useEffect(() => {
+    const token = localStorage.getItem("finance-token");
+
+    if (token) {
+      router.replace("/dashboard");
+    }
+  }, [router]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -54,7 +62,7 @@ export default function LoginPage() {
       localStorage.setItem("finance-token", data.token);
       localStorage.setItem("finance-user", JSON.stringify(data.user));
 
-      router.push("/");
+      router.push("/dashboard");
     } catch (caughtError) {
       setError(
         axios.isAxiosError(caughtError)

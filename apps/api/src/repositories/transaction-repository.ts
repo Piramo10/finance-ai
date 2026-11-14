@@ -35,4 +35,17 @@ export class TransactionRepository {
       _sum: { amount: true },
     });
   }
+
+  async findAllCategories(type?: string) {
+    return prisma.category.findMany({
+      where: type ? { type } : undefined,
+      orderBy: {
+        name: "asc",
+      },
+    });
+  }
+
+  async listCategories() {
+    return await this.findAllCategories();
+  }
 }

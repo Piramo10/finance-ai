@@ -15,24 +15,31 @@ export class TransactionController {
 
   async list(request: FastifyRequest, reply: FastifyReply) {
     const { user } = request as any;
+
     const transactions = await this.transactionService.listMyTransactions(
       user.id,
     );
+
     return reply.status(200).send(transactions);
   }
 
   async create(request: FastifyRequest, reply: FastifyReply) {
     try {
       const { user } = request as any;
+
       const data = createTransactionSchema.parse(request.body);
+
       const transaction = await this.transactionService.createTransaction(
         user.id,
         data,
       );
+
       return reply.status(201).send(transaction);
     } catch (error: any) {
-      if (error instanceof z.ZodError)
+      if (error instanceof z.ZodError) {
         return reply.status(400).send({ errors: error.errors });
+      }
+
       throw error;
     }
   }
@@ -40,15 +47,29 @@ export class TransactionController {
   async delete(request: FastifyRequest, reply: FastifyReply) {
     const { user } = request as any;
     const { id } = request.params as { id: string };
+
     const result = await this.transactionService.deleteTransaction(id, user.id);
+
     return reply.status(200).send(result);
   }
 
   async getDashboard(request: FastifyRequest, reply: FastifyReply) {
     const { user } = request as any;
+
     const dashboardData = await this.transactionService.getDashboardData(
       user.id,
     );
+
     return reply.status(200).send(dashboardData);
+  }
+
+  async listCategories(request: FastifyRequest, reply: FastifyReply) {
+    const { type } = request.query as {
+      type?: string;
+    };
+
+    const categories = await this.transactionService.listCategories(type);
+
+    return reply.status(200).send(categories);
   }
 }

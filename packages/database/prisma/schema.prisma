@@ -14,6 +14,7 @@ model User {
   password      String
   transactions  Transaction[]
   accounts      Account[]
+  financialGoals FinancialGoal[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
@@ -30,9 +31,10 @@ model Account {
 
 model Category {
   id           String        @id @default(uuid())
-  name         String        @unique // Ex: "Alimentação", "Lazer", "Transporte"
-  icon         String?       // Nome do ícone (ex: "shopping-cart")
-  color        String?       // Hexadecimal da cor
+  name         String        @unique
+  icon         String?
+  color        String?
+  type         String
   transactions Transaction[]
 }
 
@@ -51,4 +53,19 @@ model Transaction {
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model FinancialGoal {
+  id            String   @id @default(uuid())
+  title         String
+  targetAmount  Decimal
+  currentAmount Decimal  @default(0)
+  deadline      DateTime?
+  icon          String?
+  
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
